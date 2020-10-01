@@ -11,14 +11,10 @@ function Main(props) {
   React.useEffect(() => {
     Promise.all([api.getInitCards(),api.getUserInfo()])
     .then(([ cards, data ]) => {
-      const userId = data._id;
-
       setUserName(data.name);
       setUserDescription(data.about);
       setUserAvatar(data.avatar);
       setInitialCards(cards);
-
-      return userId
     })
     .catch(err => console.log(err))
   }, []);
@@ -48,9 +44,11 @@ function Main(props) {
       <section className="places">
         <ul className="places__list">
           {cards.map((card) => (
-            <Card card={card}
-             key={card._id}
-             onCardClick={props.onCardClick}/>
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={props.onCardClick}
+              />
           ))}
         </ul>
       </section>

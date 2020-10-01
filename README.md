@@ -11,7 +11,7 @@
 
 **Ссылка на проект**
 
-https://nerevar123.github.io/mesto-react/index.html
+https://nerevar123.github.io/mesto-react
 
 **Change-log**
 

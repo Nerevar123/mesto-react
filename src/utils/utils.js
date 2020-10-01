@@ -9,18 +9,10 @@ export const validateOptions = {
   avatarModal: 'modal_type_avatar'
 };
 
-export const places = '.places__list';
-export const inputs = document.querySelectorAll('.modal__input');
-
-export const avatarLink = document.querySelector('.profile__avatar');
-
-export const editButton = document.querySelector('.profile__edit-btn');
-export const placeButton = document.querySelector('.profile__add-btn');
-export const avatarButton = document.querySelector('.profile__avatar-btn');
-
-
-
-
-
-
-
+export const apiOptions = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-15',
+  headers: {
+    authorization: '793e9e42-5ad3-4803-88e8-acbb4feac8c0',
+    'Content-Type': 'application/json'
+  }
+};
