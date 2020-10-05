@@ -5,29 +5,6 @@ import { validateOptions } from '../utils/utils';
 
 function PopupWithForm(props) {
   React.useEffect(() => {
-    // Пока не удалось сделать без дублирования в ImagePopup, работаю над этим)
-    function closeModalWithEsc(e) {
-      if (e.key === "Escape") {
-        props.onClose();
-      }
-    };
-
-    function closeModalWithClick(e) {
-      if (e.target.classList.contains('modal')) {
-        props.onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', closeModalWithClick);
-    document.addEventListener('keydown', closeModalWithEsc);
-
-    return () => {
-      document.removeEventListener('mousedown', closeModalWithClick);
-      document.removeEventListener('keydown', closeModalWithEsc);
-    };
-  }, [props]);
-
-  React.useEffect(() => {
     const formValidator = new FormValidator(`.modal_type_${props.name}`, validateOptions);
     formValidator.enableValidation();
   }, [props.name]);
