@@ -54,20 +54,20 @@ export default class Api {
     .then(this._checkError);
   }
 
-  putLike(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
-      method: "PUT",
-      headers: this._headers
-      })
-      .then(this._checkError);
-  }
-
-  deleteLike(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
-      method: "DELETE",
-      headers: this._headers
-      })
-      .then(this._checkError);
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+        method: "PUT",
+        headers: this._headers
+        })
+        .then(this._checkError);
+    } else {
+      return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+        method: "DELETE",
+        headers: this._headers
+        })
+        .then(this._checkError);
+    }
   }
 
   patchAvatar(avatar) {

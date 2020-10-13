@@ -76,18 +76,7 @@ class FormValidator {
   }
 
   resetError() {
-    this._inputList = Array.from(this._form.querySelectorAll(this._options.inputSelector));
-    this._buttonElement = this._form.querySelector(this._options.submitButtonSelector);
-
-    this._inputList.forEach((input) => {
-      if (this._form.classList.contains(this._options.placeModal) || this._form.classList.contains(this._options.avatarModal)) {
-        this._toggleButtonState();
-        this._hideInputError(input, input.validationMessage);
-        this._isEmpty(input);
-      } else {
-        this._checkInput(input);
-      }
-    });
+    this._toggleButtonState();
   }
 
   enableValidation() {
