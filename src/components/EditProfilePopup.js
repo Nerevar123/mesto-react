@@ -1,31 +1,28 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import useFormWithValidation from '../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function EditProfilePopup(props) {
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSaving }) {
+  const {values, handleChange, errors, isValid, setIsValid, resetForm} = useFormWithValidation();
+
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
-
-  function handleNameChange(e) {
-    setName(e.target.value);
-  };
-
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  };
+    if (currentUser) {
+      resetForm({
+        nickname: currentUser.name,
+        description: currentUser.about});
+      setIsValid(true);
+    }
+  }, [currentUser, resetForm, setIsValid]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onUpdateUser({
-      name,
-      about: description,
+    onUpdateUser({
+      name: values.nickname || '',
+      about: values.description || '',
     });
   };
 
@@ -34,21 +31,26 @@ function EditProfilePopup(props) {
       title="Редактировать профиль"
       name="title"
       buttonText="Сохранить"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
-      isSaving={props.isSaving}
+      isSaving={isSaving}
+      isDisabled={!isValid}
       children={(
         <fieldset className="modal__fields">
           <label className="modal__field">
-            <input type="text" className="modal__input" name="nickname" id="name-input" required minLength="2" maxLength="40" value={name} onChange={handleNameChange} />
-            <span className="modal__placeholder modal__placeholder_is-fixed" id="name-input-placeholder">Имя</span>
-            <span id="name-input-error" className="modal__input-error"></span>
+            <input type="text" className={`modal__input ${errors.nickname && "modal__input_type_error"}`}
+                   name="nickname" id="nickname-input" required minLength="2" maxLength="40"
+                   pattern="[a-zA-Zа-яА-Я -]{1,}" value={values.nickname || ''} onChange={handleChange} />
+            <span className={`modal__placeholder ${values.nickname && "modal__placeholder_is-fixed"}`} id="nickname-input-placeholder">Имя</span>
+            <span id="nickname-input-error" className={`modal__input-error ${errors.nickname && "modal__input-error_active"}`}>{errors.nickname || ''}</span>
           </label>
           <label className="modal__field">
-            <input type="text" className="modal__input" name="desc" id="desc-input" required minLength="2" maxLength="200" value={description} onChange={handleDescriptionChange} />
-            <span className="modal__placeholder modal__placeholder_is-fixed" id="desc-input-placeholder">О себе</span>
-            <span id="desc-input-error" className="modal__input-error"></span>
+            <input type="text" className={`modal__input ${errors.description && "modal__input_type_error"}`}
+                   name="description" id="description-input" required minLength="2" maxLength="200"
+                   value={values.description || ''} onChange={handleChange} />
+            <span className={`modal__placeholder ${values.description && "modal__placeholder_is-fixed"}`} id="description-input-placeholder">О себе</span>
+            <span id="description-input-error" className={`modal__input-error ${errors.description && "modal__input-error_active"}`}>{errors.description || ''}</span>
           </label>
         </fieldset>
       )}
